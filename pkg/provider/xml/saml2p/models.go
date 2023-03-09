@@ -41,7 +41,7 @@ type StatusResponseType struct {
 }
 
 type StatusType struct {
-	XMLName       xml.Name          `xml:"urn:oasis:names:tc:SAML:2.0:protocol saml2:Status"`
+	XMLName       xml.Name          `xml:"urn:oasis:names:tc:SAML:2.0:protocol saml2p:Status"`
 	StatusCode    StatusCodeType    `xml:"StatusCode"`
 	StatusMessage string            `xml:"StatusMessage,omitempty"`
 	StatusDetail  *StatusDetailType `xml:"StatusDetail"`
