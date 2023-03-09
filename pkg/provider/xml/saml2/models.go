@@ -30,43 +30,43 @@ type EncryptedElementType struct {
 }
 
 type AssertionType struct {
-	XMLName                xml.Name                     `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Assertion"`
+	XMLName                xml.Name                     `xml:"urn:oasis:names:tc:SAML:2.0:assertion Assertion"`
 	Version                string                       `xml:"Version,attr"`
 	Id                     string                       `xml:"ID,attr"`
 	IssueInstant           string                       `xml:"IssueInstant,attr"`
-	Issuer                 NameIDType                   `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Issuer"`
+	Issuer                 NameIDType                   `xml:"urn:oasis:names:tc:SAML:2.0:assertion Issuer"`
 	Signature              *xml_dsig.SignatureType      `xml:"Signature"`
-	Subject                *SubjectType                 `xml:"saml2:Subject"`
-	Conditions             *ConditionsType              `xml:"saml2:Conditions"`
-	Advice                 *AdviceType                  `xml:"saml2:Advice"`
+	Subject                *SubjectType                 `xml:"Subject"`
+	Conditions             *ConditionsType              `xml:"Conditions"`
+	Advice                 *AdviceType                  `xml:"Advice"`
 	Statement              []StatementAbstractType      `xml:"urn:oasis:names:tc:SAML:2.0:assertion Statement"`
-	AuthnStatement         []AuthnStatementType         `xml:"saml2:AuthnStatement"`
-	AuthzDecisionStatement []AuthzDecisionStatementType `xml:"saml2:AuthzDecisionStatement"`
-	AttributeStatement     []AttributeStatementType     `xml:"saml2:AttributeStatement"`
+	AuthnStatement         []AuthnStatementType         `xml:"AuthnStatement"`
+	AuthzDecisionStatement []AuthzDecisionStatementType `xml:"AuthzDecisionStatement"`
+	AttributeStatement     []AttributeStatementType     `xml:"AttributeStatement"`
 	//InnerXml               string                       `xml:",innerxml"`
 }
 
 type SubjectType struct {
-	XMLName             xml.Name                  `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Subject"`
+	XMLName             xml.Name                  `xml:"urn:oasis:names:tc:SAML:2.0:assertion Subject"`
 	BaseID              *BaseIDAbstractType       `xml:"BaseID"`
-	NameID              *NameIDType               `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:NameID"`
+	NameID              *NameIDType               `xml:"urn:oasis:names:tc:SAML:2.0:assertion NameID"`
 	EncryptedID         *EncryptedElementType     `xml:"urn:oasis:names:tc:SAML:2.0:assertion EncryptedID"`
-	SubjectConfirmation []SubjectConfirmationType `xml:"saml2:SubjectConfirmation"`
+	SubjectConfirmation []SubjectConfirmationType `xml:"SubjectConfirmation"`
 	//InnerXml            string                    `xml:",innerxml"`
 }
 
 type SubjectConfirmationType struct {
-	XMLName                 xml.Name                     `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:SubjectConfirmation"`
+	XMLName                 xml.Name                     `xml:"urn:oasis:names:tc:SAML:2.0:assertion SubjectConfirmation"`
 	Method                  string                       `xml:"Method,attr"`
-	SubjectConfirmationData *SubjectConfirmationDataType `xml:"saml2:SubjectConfirmationData"`
+	SubjectConfirmationData *SubjectConfirmationDataType `xml:"SubjectConfirmationData"`
 	BaseID                  *BaseIDAbstractType          `xml:"BaseID"`
-	NameID                  *NameIDType                  `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:NameID"`
+	NameID                  *NameIDType                  `xml:"urn:oasis:names:tc:SAML:2.0:assertion NameID"`
 	EncryptedID             *EncryptedElementType        `xml:"urn:oasis:names:tc:SAML:2.0:assertion EncryptedID"`
 	//InnerXml                string                       `xml:",innerxml"`
 }
 
 type SubjectConfirmationDataType struct {
-	XMLName      xml.Name `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:SubjectConfirmationData"`
+	XMLName      xml.Name `xml:"urn:oasis:names:tc:SAML:2.0:assertion SubjectConfirmationData"`
 	NotBefore    string   `xml:"NotBefore,attr,omitempty"`
 	NotOnOrAfter string   `xml:"NotOnOrAfter,attr,omitempty"`
 	Recipient    string   `xml:"Recipient,attr,omitempty"`
@@ -76,7 +76,7 @@ type SubjectConfirmationDataType struct {
 }
 
 type KeyInfoConfirmationDataType struct {
-	XMLName      xml.Name `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:KeyInfoConfirmationData"`
+	XMLName      xml.Name `xml:"urn:oasis:names:tc:SAML:2.0:assertion KeyInfoConfirmationData"`
 	NotBefore    string   `xml:"NotBefore,attr,omitempty"`
 	NotOnOrAfter string   `xml:"NotOnOrAfter,attr,omitempty"`
 	Recipient    string   `xml:"Recipient,attr,omitempty"`
@@ -86,13 +86,13 @@ type KeyInfoConfirmationDataType struct {
 }
 
 type ConditionsType struct {
-	XMLName             xml.Name                  `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Conditions"`
+	XMLName             xml.Name                  `xml:"urn:oasis:names:tc:SAML:2.0:assertion Conditions"`
 	NotBefore           string                    `xml:"NotBefore,attr,omitempty"`
 	NotOnOrAfter        string                    `xml:"NotOnOrAfter,attr,omitempty"`
 	Condition           []ConditionAbstractType   `xml:"urn:oasis:names:tc:SAML:2.0:assertion Condition"`
-	AudienceRestriction []AudienceRestrictionType `xml:"saml2:AudienceRestriction"`
-	OneTimeUse          []OneTimeUseType          `xml:"saml2:OneTimeUse"`
-	ProxyRestriction    []ProxyRestrictionType    `xml:"saml2:ProxyRestriction"`
+	AudienceRestriction []AudienceRestrictionType `xml:"AudienceRestriction"`
+	OneTimeUse          []OneTimeUseType          `xml:"OneTimeUse"`
+	ProxyRestriction    []ProxyRestrictionType    `xml:"ProxyRestriction"`
 	//InnerXml            string                    `xml:",innerxml"`
 }
 
@@ -102,28 +102,28 @@ type ConditionAbstractType struct {
 }
 
 type AudienceRestrictionType struct {
-	XMLName  xml.Name `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:AudienceRestriction"`
+	XMLName  xml.Name `xml:"urn:oasis:names:tc:SAML:2.0:assertion AudienceRestriction"`
 	Audience []string `xml:",any"`
 	//InnerXml string   `xml:",innerxml"`
 }
 
 type OneTimeUseType struct {
-	XMLName xml.Name `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:OneTimeUse"`
+	XMLName xml.Name `xml:"urn:oasis:names:tc:SAML:2.0:assertion OneTimeUse"`
 	//InnerXml string   `xml:",innerxml"`
 }
 
 type ProxyRestrictionType struct {
-	XMLName  xml.Name `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:ProxyRestriction"`
+	XMLName  xml.Name `xml:"urn:oasis:names:tc:SAML:2.0:assertion ProxyRestriction"`
 	Count    int      `xml:"Count,attr,omitempty"`
 	Audience []string `xml:",any"`
 	//InnerXml string   `xml:",innerxml"`
 }
 
 type AdviceType struct {
-	XMLName            xml.Name               `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Advice"`
+	XMLName            xml.Name               `xml:"urn:oasis:names:tc:SAML:2.0:assertion Advice"`
 	AssertionIDRef     []string               `xml:"AssertionIDRef"`
 	AssertionURIRef    []string               `xml:"AssertionURIRef"`
-	Assertion          []AssertionType        `xml:"saml2:Assertion"`
+	Assertion          []AssertionType        `xml:"Assertion"`
 	EncryptedAssertion []EncryptedElementType `xml:"urn:oasis:names:tc:SAML:2.0:assertion EncryptedAssertion"`
 	//InnerXml           string                 `xml:",innerxml"`
 }
@@ -134,17 +134,17 @@ type StatementAbstractType struct {
 }
 
 type AuthnStatementType struct {
-	XMLName             xml.Name             `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:AuthnStatement"`
+	XMLName             xml.Name             `xml:"urn:oasis:names:tc:SAML:2.0:assertion AuthnStatement"`
 	AuthnInstant        string               `xml:"AuthnInstant,attr"`
 	SessionIndex        string               `xml:"SessionIndex,attr,omitempty"`
 	SessionNotOnOrAfter string               `xml:"SessionNotOnOrAfter,attr,omitempty"`
-	SubjectLocality     *SubjectLocalityType `xml:"saml2:SubjectLocality"`
+	SubjectLocality     *SubjectLocalityType `xml:"SubjectLocality"`
 	AuthnContext        AuthnContextType     `xml:"AuthnContext"`
 	//InnerXml            string               `xml:",innerxml"`
 }
 
 type SubjectLocalityType struct {
-	XMLName xml.Name `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:SubjectLocality"`
+	XMLName xml.Name `xml:"urn:oasis:names:tc:SAML:2.0:assertion SubjectLocality"`
 	Address string   `xml:"Address,attr,omitempty"`
 	DNSName string   `xml:"DNSName,attr,omitempty"`
 	//InnerXml string   `xml:",innerxml"`
@@ -160,38 +160,38 @@ type AuthnContextType struct {
 }
 
 type AuthzDecisionStatementType struct {
-	XMLName  xml.Name      `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:AuthzDecisionStatement"`
+	XMLName  xml.Name      `xml:"urn:oasis:names:tc:SAML:2.0:assertion AuthzDecisionStatement"`
 	Resource string        `xml:"Resource,attr"`
 	Decision DecisionType  `xml:"Decision,attr"`
-	Action   []ActionType  `xml:"saml2:Action"`
-	Evidence *EvidenceType `xml:"saml2:Evidence"`
+	Action   []ActionType  `xml:"Action"`
+	Evidence *EvidenceType `xml:"Evidence"`
 	//	InnerXml string        `xml:",innerxml"`
 }
 
 type ActionType struct {
-	XMLName   xml.Name `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Action"`
+	XMLName   xml.Name `xml:"urn:oasis:names:tc:SAML:2.0:assertion Action"`
 	Namespace string   `xml:"Namespace,attr"`
 	Text      string   `xml:",chardata"`
 	//	InnerXml  string   `xml:",innerxml"`
 }
 
 type EvidenceType struct {
-	XMLName            xml.Name               `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Evidence"`
+	XMLName            xml.Name               `xml:"urn:oasis:names:tc:SAML:2.0:assertion Evidence"`
 	AssertionIDRef     []string               `xml:"AssertionIDRef"`
 	AssertionURIRef    []string               `xml:"AssertionURIRef"`
-	Assertion          []AssertionType        `xml:"saml2:Assertion"`
+	Assertion          []AssertionType        `xml:"Assertion"`
 	EncryptedAssertion []EncryptedElementType `xml:"urn:oasis:names:tc:SAML:2.0:assertion EncryptedAssertion"`
 	//	InnerXml           string                 `xml:",innerxml"`
 }
 
 type AttributeStatementType struct {
-	XMLName   xml.Name         `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:AttributeStatement"`
-	Attribute []*AttributeType `xml:"saml2:Attribute"`
+	XMLName   xml.Name         `xml:"urn:oasis:names:tc:SAML:2.0:assertion AttributeStatement"`
+	Attribute []*AttributeType `xml:"Attribute"`
 	//InnerXml  string           `xml:",innerxml"`
 }
 
 type AttributeType struct {
-	XMLName        xml.Name `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Attribute"`
+	XMLName        xml.Name `xml:"urn:oasis:names:tc:SAML:2.0:assertion Attribute"`
 	Name           string   `xml:"Name,attr"`
 	NameFormat     string   `xml:"NameFormat,attr,omitempty"`
 	FriendlyName   string   `xml:"FriendlyName,attr,omitempty"`
