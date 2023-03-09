@@ -201,7 +201,7 @@ type IDPEntryType struct {
 }
 
 type ResponseType struct {
-	XMLName      xml.Name                `xml:"urn:oasis:names:tc:SAML:2.0:protocol saml2p:Response"`
+	XMLName      xml.Name                `xml:"urn:oasis:names:tc:SAML:2.0:protocol Response"`
 	Id           string                  `xml:"ID,attr"`
 	InResponseTo string                  `xml:"InResponseTo,attr,omitempty"`
 	Version      string                  `xml:"Version,attr"`
