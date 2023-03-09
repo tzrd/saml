@@ -3,7 +3,7 @@ package md
 import (
 	"encoding/xml"
 
-	"github.com/tzrd/saml/pkg/provider/xml/saml"
+	"github.com/tzrd/saml/pkg/provider/xml/saml2"
 	"github.com/tzrd/saml/pkg/provider/xml/xenc"
 	"github.com/tzrd/saml/pkg/provider/xml/xml_dsig"
 )
@@ -161,7 +161,7 @@ type IDPSSODescriptorType struct {
 	NameIDMappingService       []EndpointType          `xml:"urn:oasis:names:tc:SAML:2.0:metadata NameIDMappingService"`
 	AssertionIDRequestService  []EndpointType          `xml:"urn:oasis:names:tc:SAML:2.0:metadata AssertionIDRequestService"`
 	AttributeProfile           []string                `xml:"AttributeProfile"`
-	Attribute                  []*saml.AttributeType   `xml:"Attribute"`
+	Attribute                  []*saml2.AttributeType  `xml:"Attribute"`
 	ArtifactResolutionService  []IndexedEndpointType   `xml:"urn:oasis:names:tc:SAML:2.0:metadata ArtifactResolutionService"`
 	SingleLogoutService        []EndpointType          `xml:"urn:oasis:names:tc:SAML:2.0:metadata SingleLogoutService"`
 	ManageNameIDService        []EndpointType          `xml:"urn:oasis:names:tc:SAML:2.0:metadata ManageNameIDService"`
@@ -264,7 +264,7 @@ type AttributeAuthorityDescriptorType struct {
 	AssertionIDRequestService  []EndpointType          `xml:"urn:oasis:names:tc:SAML:2.0:metadata AssertionIDRequestService"`
 	NameIDFormat               []string                `xml:"NameIDFormat"`
 	AttributeProfile           []string                `xml:"AttributeProfile"`
-	Attribute                  []*saml.AttributeType   `xml:"Attribute"`
+	Attribute                  []*saml2.AttributeType  `xml:"Attribute"`
 	Signature                  *xml_dsig.SignatureType `xml:"Signature"`
 	Extensions                 *ExtensionsType         `xml:"Extensions"`
 	KeyDescriptor              []KeyDescriptorType     `xml:"KeyDescriptor"`
