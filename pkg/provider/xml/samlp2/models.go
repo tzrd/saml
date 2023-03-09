@@ -15,7 +15,7 @@ type RequestAbstractType struct {
 	Destination  string                  `xml:"Destination,attr,omitempty"`
 	Consent      string                  `xml:"Consent,attr,omitempty"`
 	Issuer       *saml.NameIDType        `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Issuer"`
-	Signature    *xml_dsig.SignatureType `xml:"ds:Signature"`
+	Signature    *xml_dsig.SignatureType `xml:"Signature"`
 	Extensions   *ExtensionsType         `xml:"samlp2:Extensions"`
 	//InnerXml     string                  `xml:",innerxml"`
 }
@@ -34,7 +34,7 @@ type StatusResponseType struct {
 	Destination  string                  `xml:"Destination,attr,omitempty"`
 	Consent      string                  `xml:"Consent,attr,omitempty"`
 	Issuer       *saml.NameIDType        `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Issuer"`
-	Signature    *xml_dsig.SignatureType `xml:"ds:Signature"`
+	Signature    *xml_dsig.SignatureType `xml:"Signature"`
 	Extensions   *ExtensionsType         `xml:"samlp2:Extensions"`
 	Status       StatusType              `xml:"Status"`
 	//InnerXml     string                  `xml:",innerxml"`
@@ -69,7 +69,7 @@ type AssertionIDRequestType struct {
 	Consent        string                  `xml:"Consent,attr,omitempty"`
 	AssertionIDRef []string                `xml:"AssertionIDRef"`
 	Issuer         *saml.NameIDType        `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Issuer"`
-	Signature      *xml_dsig.SignatureType `xml:"ds:Signature"`
+	Signature      *xml_dsig.SignatureType `xml:"Signature"`
 	Extensions     *ExtensionsType         `xml:"samlp2:Extensions"`
 	//InnerXml       string                  `xml:",innerxml"`
 }
@@ -83,7 +83,7 @@ type SubjectQueryAbstractType struct {
 	Consent      string                  `xml:"Consent,attr,omitempty"`
 	Subject      saml.SubjectType        `xml:"saml2:Subject"`
 	Issuer       *saml.NameIDType        `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Issuer"`
-	Signature    *xml_dsig.SignatureType `xml:"ds:Signature"`
+	Signature    *xml_dsig.SignatureType `xml:"Signature"`
 	Extensions   *ExtensionsType         `xml:"samlp2:Extensions"`
 	//InnerXml     string                  `xml:",innerxml"`
 }
@@ -99,7 +99,7 @@ type AuthnQueryType struct {
 	RequestedAuthnContext *RequestedAuthnContextType `xml:"samlp2:RequestedAuthnContext"`
 	Subject               saml.SubjectType           `xml:"saml2:Subject"`
 	Issuer                *saml.NameIDType           `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Issuer"`
-	Signature             *xml_dsig.SignatureType    `xml:"ds:Signature"`
+	Signature             *xml_dsig.SignatureType    `xml:"Signature"`
 	Extensions            *ExtensionsType            `xml:"samlp2:Extensions"`
 	//InnerXml              string                     `xml:",innerxml"`
 }
@@ -122,7 +122,7 @@ type AttributeQueryType struct {
 	Attribute    []saml.AttributeType    `xml:"saml2:Attribute"`
 	Subject      saml.SubjectType        `xml:"saml2:Subject"`
 	Issuer       *saml.NameIDType        `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Issuer"`
-	Signature    *xml_dsig.SignatureType `xml:"ds:Signature"`
+	Signature    *xml_dsig.SignatureType `xml:"Signature"`
 	Extensions   *ExtensionsType         `xml:"samlp2:Extensions"`
 	//InnerXml     string                  `xml:",innerxml"`
 }
@@ -139,7 +139,7 @@ type AuthzDecisionQueryType struct {
 	Evidence     *saml.EvidenceType      `xml:"saml2:Evidence"`
 	Subject      saml.SubjectType        `xml:"saml2:Subject"`
 	Issuer       *saml.NameIDType        `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Issuer"`
-	Signature    *xml_dsig.SignatureType `xml:"ds:Signature"`
+	Signature    *xml_dsig.SignatureType `xml:"Signature"`
 	Extensions   *ExtensionsType         `xml:"samlp2:Extensions"`
 	//InnerXml     string                  `xml:",innerxml"`
 }
@@ -164,7 +164,7 @@ type AuthnRequestType struct {
 	RequestedAuthnContext          *RequestedAuthnContextType `xml:"samlp2:RequestedAuthnContext"`
 	Scoping                        *ScopingType               `xml:"samlp2:Scoping"`
 	Issuer                         *saml.NameIDType           `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Issuer"`
-	Signature                      *xml_dsig.SignatureType    `xml:"ds:Signature"`
+	Signature                      *xml_dsig.SignatureType    `xml:"Signature"`
 	Extensions                     *ExtensionsType            `xml:"samlp2:Extensions"`
 	//InnerXml                       string                     `xml:",innerxml"`
 }
@@ -209,7 +209,7 @@ type ResponseType struct {
 	Destination  string                  `xml:"Destination,attr,omitempty"`
 	Consent      string                  `xml:"Consent,attr,omitempty"`
 	Issuer       *saml.NameIDType        `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Issuer"`
-	Signature    *xml_dsig.SignatureType `xml:"ds:Signature"`
+	Signature    *xml_dsig.SignatureType `xml:"Signature"`
 	Extensions   *ExtensionsType         `xml:"samlp2:Extensions"`
 	Status       StatusType              `xml:"samlp2:Status"`
 	Assertion    saml.AssertionType      `xml:"saml2:Assertion"`
@@ -225,7 +225,7 @@ type ArtifactResolveType struct {
 	Consent      string                  `xml:"Consent,attr,omitempty"`
 	Artifact     string                  `xml:"Artifact"`
 	Issuer       *saml.NameIDType        `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Issuer"`
-	Signature    *xml_dsig.SignatureType `xml:"ds:Signature"`
+	Signature    *xml_dsig.SignatureType `xml:"Signature"`
 	Extensions   *ExtensionsType         `xml:"samlp2:Extensions"`
 	//InnerXml     string                  `xml:",innerxml"`
 }
@@ -239,7 +239,7 @@ type ArtifactResponseType struct {
 	Destination  string                  `xml:"Destination,attr,omitempty"`
 	Consent      string                  `xml:"Consent,attr,omitempty"`
 	Issuer       *saml.NameIDType        `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Issuer"`
-	Signature    *xml_dsig.SignatureType `xml:"ds:Signature"`
+	Signature    *xml_dsig.SignatureType `xml:"Signature"`
 	Extensions   *ExtensionsType         `xml:"samlp2:Extensions"`
 	Status       StatusType              `xml:"samlp2:Status"`
 	//InnerXml     string                  `xml:",innerxml"`
@@ -258,7 +258,7 @@ type ManageNameIDRequestType struct {
 	NewEncryptedID *saml.EncryptedElementType `xml:"NewEncryptedID"`
 	Terminate      *TerminateType             `xml:"samlp2:Terminate"`
 	Issuer         *saml.NameIDType           `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Issuer"`
-	Signature      *xml_dsig.SignatureType    `xml:"ds:Signature"`
+	Signature      *xml_dsig.SignatureType    `xml:"Signature"`
 	Extensions     *ExtensionsType            `xml:"samlp2:Extensions"`
 	//InnerXml       string                     `xml:",innerxml"`
 }
@@ -282,7 +282,7 @@ type LogoutRequestType struct {
 	NameID       *saml.NameIDType           `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:NameID"`
 	EncryptedID  *saml.EncryptedElementType `xml:"EncryptedID"`
 	Issuer       *saml.NameIDType           `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Issuer"`
-	Signature    *xml_dsig.SignatureType    `xml:"ds:Signature"`
+	Signature    *xml_dsig.SignatureType    `xml:"Signature"`
 	Extensions   *ExtensionsType            `xml:"samlp2:Extensions"`
 	//	InnerXml     string                     `xml:",innerxml"`
 }
@@ -296,7 +296,7 @@ type LogoutResponseType struct {
 	Destination  string                  `xml:"Destination,attr,omitempty"`
 	Consent      string                  `xml:"Consent,attr,omitempty"`
 	Issuer       *saml.NameIDType        `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Issuer"`
-	Signature    *xml_dsig.SignatureType `xml:"ds:Signature"`
+	Signature    *xml_dsig.SignatureType `xml:"Signature"`
 	Extensions   *ExtensionsType         `xml:"samlp2:Extensions"`
 	Status       StatusType              `xml:"Status"`
 	//InnerXml     string                     `xml:",innerxml"`
@@ -314,7 +314,7 @@ type NameIDMappingRequestType struct {
 	NameID       *saml.NameIDType           `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:NameID"`
 	EncryptedID  *saml.EncryptedElementType `xml:"EncryptedID"`
 	Issuer       *saml.NameIDType           `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Issuer"`
-	Signature    *xml_dsig.SignatureType    `xml:"ds:Signature"`
+	Signature    *xml_dsig.SignatureType    `xml:"Signature"`
 	Extensions   *ExtensionsType            `xml:"samlp2:Extensions"`
 	//InnerXml     string                     `xml:",innerxml"`
 }
@@ -328,7 +328,7 @@ type NameIDMappingResponseType struct {
 	Destination  string                  `xml:"Destination,attr,omitempty"`
 	Consent      string                  `xml:"Consent,attr,omitempty"`
 	Issuer       *saml.NameIDType        `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Issuer"`
-	Signature    *xml_dsig.SignatureType `xml:"ds:Signature"`
+	Signature    *xml_dsig.SignatureType `xml:"Signature"`
 	Extensions   *ExtensionsType         `xml:"samlp2:Extensions"`
 	Status       StatusType              `xml:"samlp2:Status"`
 	//InnerXml     string                  `xml:",innerxml"`

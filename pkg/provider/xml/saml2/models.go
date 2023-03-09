@@ -35,7 +35,7 @@ type AssertionType struct {
 	Id                     string                       `xml:"ID,attr"`
 	IssueInstant           string                       `xml:"IssueInstant,attr"`
 	Issuer                 NameIDType                   `xml:"urn:oasis:names:tc:SAML:2.0:assertion saml2:Issuer"`
-	Signature              *xml_dsig.SignatureType      `xml:"ds:Signature"`
+	Signature              *xml_dsig.SignatureType      `xml:"Signature"`
 	Subject                *SubjectType                 `xml:"saml2:Subject"`
 	Conditions             *ConditionsType              `xml:"saml2:Conditions"`
 	Advice                 *AdviceType                  `xml:"saml2:Advice"`
