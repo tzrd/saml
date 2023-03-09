@@ -22,7 +22,7 @@ import (
 
 	"github.com/tzrd/saml/pkg/provider/signature"
 	saml_xml "github.com/tzrd/saml/pkg/provider/xml"
-	"github.com/tzrd/saml/pkg/provider/xml/samlp2"
+	"github.com/tzrd/saml/pkg/provider/xml/saml2p"
 	"github.com/tzrd/saml/pkg/provider/xml/xml_dsig"
 )
 
@@ -483,7 +483,7 @@ func TestSignature_CreatePost(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			resp := &samlp2.ResponseType{}
+			resp := &saml2p.ResponseType{}
 			respBytes := []byte(tt.args.response)
 			decoder := xml.NewDecoder(bytes.NewReader(respBytes))
 			if err = decoder.Decode(resp); err != nil {

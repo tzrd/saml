@@ -6,7 +6,7 @@ import (
 	"github.com/tzrd/saml/pkg/provider/key"
 	"github.com/tzrd/saml/pkg/provider/models"
 	"github.com/tzrd/saml/pkg/provider/serviceprovider"
-	"github.com/tzrd/saml/pkg/provider/xml/samlp2"
+	"github.com/tzrd/saml/pkg/provider/xml/saml2p"
 )
 
 type EntityStorage interface {
@@ -21,7 +21,7 @@ type IdentityProviderStorage interface {
 }
 
 type AuthStorage interface {
-	CreateAuthRequest(context.Context, *samlp2.AuthnRequestType, string, string, string, string) (models.AuthRequestInt, error)
+	CreateAuthRequest(context.Context, *saml2p.AuthnRequestType, string, string, string, string) (models.AuthRequestInt, error)
 	AuthRequestByID(context.Context, string) (models.AuthRequestInt, error)
 }
 

@@ -10,7 +10,7 @@ import (
 	"github.com/tzrd/saml/pkg/provider/signature"
 	"github.com/tzrd/saml/pkg/provider/xml"
 	"github.com/tzrd/saml/pkg/provider/xml/md"
-	"github.com/tzrd/saml/pkg/provider/xml/samlp2"
+	"github.com/tzrd/saml/pkg/provider/xml/saml2p"
 )
 
 func signatureRedirectVerificationNecessary(
@@ -70,7 +70,7 @@ func verifyRedirectSignature(
 
 func createRedirectSignature(
 	ctx context.Context,
-	samlResponse *samlp2.ResponseType,
+	samlResponse *saml2p.ResponseType,
 	idp *IdentityProvider,
 	response *Response,
 ) error {

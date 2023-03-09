@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/tzrd/saml/pkg/provider/xml/saml"
-	"github.com/tzrd/saml/pkg/provider/xml/samlp2"
+	"github.com/tzrd/saml/pkg/provider/xml/saml2p"
 )
 
 type LogoutResponse struct {
@@ -30,7 +30,7 @@ type LogoutResponseForm struct {
 	LogoutURL    string
 }
 
-func (r *LogoutResponse) sendBackLogoutResponse(w http.ResponseWriter, resp *samlp2.LogoutResponseType) {
+func (r *LogoutResponse) sendBackLogoutResponse(w http.ResponseWriter, resp *saml2p.LogoutResponseType) {
 	var xmlbuff bytes.Buffer
 
 	memWriter := bufio.NewWriter(&xmlbuff)
@@ -67,7 +67,7 @@ func (r *LogoutResponse) sendBackLogoutResponse(w http.ResponseWriter, resp *sam
 	}
 }
 
-func (r *LogoutResponse) makeSuccessfulLogoutResponse() *samlp2.LogoutResponseType {
+func (r *LogoutResponse) makeSuccessfulLogoutResponse() *saml2p.LogoutResponseType {
 	return makeLogoutResponse(
 		r.RequestID,
 		r.LogoutURL,
@@ -80,7 +80,7 @@ func (r *LogoutResponse) makeSuccessfulLogoutResponse() *samlp2.LogoutResponseTy
 
 func (r *LogoutResponse) makeUnsupportedlLogoutResponse(
 	message string,
-) *samlp2.LogoutResponseType {
+) *saml2p.LogoutResponseType {
 	return makeLogoutResponse(
 		r.RequestID,
 		r.LogoutURL,
@@ -93,7 +93,7 @@ func (r *LogoutResponse) makeUnsupportedlLogoutResponse(
 
 func (r *LogoutResponse) makePartialLogoutResponse(
 	message string,
-) *samlp2.LogoutResponseType {
+) *saml2p.LogoutResponseType {
 	return makeLogoutResponse(
 		r.RequestID,
 		r.LogoutURL,
@@ -106,7 +106,7 @@ func (r *LogoutResponse) makePartialLogoutResponse(
 
 func (r *LogoutResponse) makeDeniedLogoutResponse(
 	message string,
-) *samlp2.LogoutResponseType {
+) *saml2p.LogoutResponseType {
 	return makeLogoutResponse(
 		r.RequestID,
 		r.LogoutURL,
@@ -124,16 +124,16 @@ func makeLogoutResponse(
 	status string,
 	message string,
 	issuer *saml.NameIDType,
-) *samlp2.LogoutResponseType {
-	return &samlp2.LogoutResponseType{
+) *saml2p.LogoutResponseType {
+	return &saml2p.LogoutResponseType{
 		Id:           NewID(),
 		InResponseTo: requestID,
 		Version:      "2.0",
 		IssueInstant: issueInstant,
 		Destination:  logoutURL,
 		Issuer:       issuer,
-		Status: samlp2.StatusType{
-			StatusCode: samlp2.StatusCodeType{
+		Status: saml2p.StatusType{
+			StatusCode: saml2p.StatusCodeType{
 				Value: status,
 			},
 			StatusMessage: message,

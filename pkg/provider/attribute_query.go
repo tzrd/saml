@@ -12,7 +12,7 @@ import (
 	"github.com/tzrd/saml/pkg/provider/xml"
 	"github.com/tzrd/saml/pkg/provider/xml/md"
 	"github.com/tzrd/saml/pkg/provider/xml/saml"
-	"github.com/tzrd/saml/pkg/provider/xml/samlp2"
+	"github.com/tzrd/saml/pkg/provider/xml/saml2p"
 	"github.com/tzrd/saml/pkg/provider/xml/soap"
 	"github.com/tzrd/saml/pkg/provider/xml/xml_dsig"
 )
@@ -22,8 +22,8 @@ func (p *IdentityProvider) attributeQueryHandleFunc(w http.ResponseWriter, r *ht
 	var attrQueryRequest string
 	var err error
 	var sp *serviceprovider.ServiceProvider
-	var attrQuery *samlp2.AttributeQueryType
-	var response *samlp2.ResponseType
+	var attrQuery *saml2p.AttributeQueryType
+	var response *saml2p.ResponseType
 
 	metadata, _, err := p.GetMetadata(r.Context())
 	if err != nil {

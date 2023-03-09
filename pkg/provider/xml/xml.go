@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/tzrd/saml/pkg/provider/xml/samlp2"
+	"github.com/tzrd/saml/pkg/provider/xml/saml2p"
 	"github.com/tzrd/saml/pkg/provider/xml/soap"
 	"github.com/tzrd/saml/pkg/provider/xml/xml_dsig"
 )
@@ -85,13 +85,13 @@ func Write(w http.ResponseWriter, body []byte) error {
 	return err
 }
 
-func DecodeAuthNRequest(encoding string, message string) (*samlp2.AuthnRequestType, error) {
+func DecodeAuthNRequest(encoding string, message string) (*saml2p.AuthnRequestType, error) {
 	reqBytes, err := base64.StdEncoding.DecodeString(message)
 	if err != nil {
 		return nil, fmt.Errorf("failed to base64 decode: %w", err)
 	}
 
-	req := &samlp2.AuthnRequestType{}
+	req := &saml2p.AuthnRequestType{}
 	switch encoding {
 	case EncodingDeflate:
 		reader := flate.NewReader(bytes.NewReader(reqBytes))
@@ -136,7 +136,7 @@ func DecodeSignature(encoding string, message string) (*xml_dsig.SignatureType, 
 	return ret, nil
 }
 
-func DecodeAttributeQuery(request string) (*samlp2.AttributeQueryType, error) {
+func DecodeAttributeQuery(request string) (*saml2p.AttributeQueryType, error) {
 	decoder := xml.NewDecoder(strings.NewReader(request))
 	var attrEnv soap.AttributeQueryEnvelope
 	err := decoder.Decode(&attrEnv)
@@ -147,13 +147,13 @@ func DecodeAttributeQuery(request string) (*samlp2.AttributeQueryType, error) {
 	return attrEnv.Body.AttributeQuery, nil
 }
 
-func DecodeLogoutRequest(encoding string, message string) (*samlp2.LogoutRequestType, error) {
+func DecodeLogoutRequest(encoding string, message string) (*saml2p.LogoutRequestType, error) {
 	reqBytes, err := base64.StdEncoding.DecodeString(message)
 	if err != nil {
 		return nil, err
 	}
 
-	req := &samlp2.LogoutRequestType{}
+	req := &saml2p.LogoutRequestType{}
 	switch encoding {
 	case "":
 		reader := flate.NewReader(bytes.NewReader(reqBytes))
@@ -174,9 +174,9 @@ func DecodeLogoutRequest(encoding string, message string) (*samlp2.LogoutRequest
 	return req, nil
 }
 
-func DecodeResponse(encoding string, message string) (*samlp2.ResponseType, error) {
+func DecodeResponse(encoding string, message string) (*saml2p.ResponseType, error) {
 
-	req := &samlp2.ResponseType{}
+	req := &saml2p.ResponseType{}
 	switch encoding {
 	case "":
 		decoder := xml.NewDecoder(bytes.NewReader([]byte(message)))

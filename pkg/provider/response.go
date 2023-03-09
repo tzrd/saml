@@ -9,7 +9,7 @@ import (
 
 	"github.com/tzrd/saml/pkg/provider/xml"
 	"github.com/tzrd/saml/pkg/provider/xml/saml"
-	"github.com/tzrd/saml/pkg/provider/xml/samlp2"
+	"github.com/tzrd/saml/pkg/provider/xml/saml2p"
 )
 
 const (
@@ -86,7 +86,7 @@ type AuthResponseForm struct {
 func (r *Response) sendBackResponse(
 	req *http.Request,
 	w http.ResponseWriter,
-	resp *samlp2.ResponseType,
+	resp *saml2p.ResponseType,
 ) {
 	respStr, err := xml.Marshal(resp)
 	if err != nil {
@@ -99,7 +99,7 @@ func (r *Response) sendBackResponse(
 
 func (r *Response) makeUnsupportedBindingResponse(
 	message string,
-) *samlp2.ResponseType {
+) *saml2p.ResponseType {
 	now := time.Now().UTC()
 	nowStr := now.Format(DefaultTimeFormat)
 	return makeResponse(
@@ -115,7 +115,7 @@ func (r *Response) makeUnsupportedBindingResponse(
 
 func (r *Response) makeResponderFailResponse(
 	message string,
-) *samlp2.ResponseType {
+) *saml2p.ResponseType {
 	now := time.Now().UTC()
 	nowStr := now.Format(DefaultTimeFormat)
 	return makeResponse(
@@ -131,7 +131,7 @@ func (r *Response) makeResponderFailResponse(
 
 func (r *Response) makeDeniedResponse(
 	message string,
-) *samlp2.ResponseType {
+) *saml2p.ResponseType {
 	now := time.Now().UTC()
 	nowStr := now.Format(DefaultTimeFormat)
 	return makeResponse(
@@ -147,7 +147,7 @@ func (r *Response) makeDeniedResponse(
 
 func (r *Response) makeFailedResponse(
 	message string,
-) *samlp2.ResponseType {
+) *saml2p.ResponseType {
 	now := time.Now().UTC()
 	nowStr := now.Format(DefaultTimeFormat)
 	return makeResponse(
@@ -163,7 +163,7 @@ func (r *Response) makeFailedResponse(
 
 func (r *Response) makeSuccessfulResponse(
 	attributes *Attributes,
-) *samlp2.ResponseType {
+) *saml2p.ResponseType {
 	now := time.Now().UTC()
 	nowStr := "" //now.Format(DefaultTimeFormat)
 	fiveFromNowStr := now.Add(5 * time.Minute).Format(DefaultTimeFormat)
@@ -179,7 +179,7 @@ func (r *Response) makeAssertionResponse(
 	issueInstant string,
 	untilInstant string,
 	attributes *Attributes,
-) *samlp2.ResponseType {
+) *saml2p.ResponseType {
 
 	response := makeResponse(NewID(), r.RequestID, r.AcsUrl, issueInstant, StatusCodeSuccess, "", r.Issuer)
 	assertion := makeAssertion(r.RequestID, r.AcsUrl, r.SendIP, issueInstant, untilInstant, r.Issuer, attributes.GetNameID(), attributes.GetSAML(), r.Audience, true)
@@ -200,7 +200,7 @@ func makeAttributeQueryResponse(
 	entityID string,
 	attributes *Attributes,
 	queriedAttrs []saml.AttributeType,
-) *samlp2.ResponseType {
+) *saml2p.ResponseType {
 	now := time.Now().UTC()
 	nowStr := now.Format(DefaultTimeFormat)
 	fiveMinutes, _ := time.ParseDuration("5m")
@@ -301,13 +301,13 @@ func makeResponse(
 	status string,
 	message string,
 	issuer string,
-) *samlp2.ResponseType {
-	resp := &samlp2.ResponseType{
+) *saml2p.ResponseType {
+	resp := &saml2p.ResponseType{
 		Version:      "2.0",
 		Id:           id,
 		IssueInstant: issueInstant,
-		Status: samlp2.StatusType{
-			StatusCode: samlp2.StatusCodeType{
+		Status: saml2p.StatusType{
+			StatusCode: saml2p.StatusCodeType{
 				Value: status,
 			},
 			StatusMessage: message,

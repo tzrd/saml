@@ -3,7 +3,7 @@ package soap
 import (
 	"encoding/xml"
 
-	"github.com/tzrd/saml/pkg/provider/xml/samlp2"
+	"github.com/tzrd/saml/pkg/provider/xml/saml2p"
 )
 
 type ArtifactResolveEnvelope struct {
@@ -13,7 +13,7 @@ type ArtifactResolveEnvelope struct {
 
 type ArtifactResolveBody struct {
 	XMLName         xml.Name `xml:"http://schemas.xmlsoap.org/soap/envelope/ Body"`
-	ArtifactResolve *samlp2.ArtifactResolveType
+	ArtifactResolve *saml2p.ArtifactResolveType
 }
 
 type ArtifactResponseEnvelope struct {
@@ -23,7 +23,7 @@ type ArtifactResponseEnvelope struct {
 
 type ArtifactResponseBody struct {
 	XMLName          xml.Name `xml:"http://schemas.xmlsoap.org/soap/envelope/ Body"`
-	ArtifactResponse *samlp2.ArtifactResponseType
+	ArtifactResponse *saml2p.ArtifactResponseType
 }
 
 type AttributeQueryEnvelope struct {
@@ -33,7 +33,7 @@ type AttributeQueryEnvelope struct {
 
 type AttributeQueryBody struct {
 	XMLName        xml.Name `xml:"http://schemas.xmlsoap.org/soap/envelope/ Body"`
-	AttributeQuery *samlp2.AttributeQueryType
+	AttributeQuery *saml2p.AttributeQueryType
 }
 
 type ResponseEnvelope struct {
@@ -43,5 +43,5 @@ type ResponseEnvelope struct {
 
 type ResponseBody struct {
 	XMLName  xml.Name `xml:"http://schemas.xmlsoap.org/soap/envelope/ Body"`
-	Response *samlp2.ResponseType
+	Response *saml2p.ResponseType
 }

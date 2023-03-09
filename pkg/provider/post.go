@@ -8,7 +8,7 @@ import (
 	"github.com/tzrd/saml/pkg/provider/serviceprovider"
 	"github.com/tzrd/saml/pkg/provider/signature"
 	"github.com/tzrd/saml/pkg/provider/xml/md"
-	"github.com/tzrd/saml/pkg/provider/xml/samlp2"
+	"github.com/tzrd/saml/pkg/provider/xml/saml2p"
 	"github.com/tzrd/saml/pkg/provider/xml/xml_dsig"
 )
 
@@ -64,7 +64,7 @@ func verifyPostSignature(
 
 func createPostSignature(
 	ctx context.Context,
-	samlResponse *samlp2.ResponseType,
+	samlResponse *saml2p.ResponseType,
 	idp *IdentityProvider,
 ) error {
 	cert, key, err := getResponseCert(ctx, idp.storage)
