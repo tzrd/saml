@@ -12,7 +12,7 @@ import (
 	"github.com/tzrd/saml/pkg/provider/serviceprovider"
 	"github.com/tzrd/saml/pkg/provider/xml"
 	"github.com/tzrd/saml/pkg/provider/xml/md"
-	"github.com/tzrd/saml/pkg/provider/xml/samlp"
+	"github.com/tzrd/saml/pkg/provider/xml/samlp2"
 	"github.com/tzrd/saml/pkg/provider/xml/xml_dsig"
 )
 
@@ -28,7 +28,7 @@ type AuthRequestForm struct {
 func (p *IdentityProvider) ssoHandleFunc(w http.ResponseWriter, r *http.Request) {
 	checkerInstance := checker.Checker{}
 	var authRequestForm *AuthRequestForm
-	var authNRequest *samlp.AuthnRequestType
+	var authNRequest *samlp2.AuthnRequestType
 	var sp *serviceprovider.ServiceProvider
 	var authRequest models.AuthRequestInt
 	var err error
@@ -207,7 +207,7 @@ func (p *IdentityProvider) ssoHandleFunc(w http.ResponseWriter, r *http.Request)
 		checkRequestRequiredContent(
 			func() *md.IDPSSODescriptorType { return metadata },
 			func() *serviceprovider.ServiceProvider { return sp },
-			func() *samlp.AuthnRequestType { return authNRequest },
+			func() *samlp2.AuthnRequestType { return authNRequest },
 		),
 		func() {
 			response.sendBackResponse(r, w, response.makeDeniedResponse(fmt.Errorf("failed to validate request content: %w", err).Error()))
@@ -275,7 +275,7 @@ func getAuthRequestFromRequest(r *http.Request) (*AuthRequestForm, error) {
 func checkRequestRequiredContent(
 	idpMetadataF func() *md.IDPSSODescriptorType,
 	spF func() *serviceprovider.ServiceProvider,
-	authNRequestF func() *samlp.AuthnRequestType,
+	authNRequestF func() *samlp2.AuthnRequestType,
 ) func() error {
 	return func() error {
 		sp := spF()

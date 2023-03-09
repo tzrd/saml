@@ -14,7 +14,7 @@ import (
 
 	"github.com/tzrd/saml/pkg/provider/serviceprovider"
 	"github.com/tzrd/saml/pkg/provider/xml/md"
-	"github.com/tzrd/saml/pkg/provider/xml/samlp"
+	"github.com/tzrd/saml/pkg/provider/xml/samlp2"
 )
 
 const (
@@ -173,7 +173,7 @@ func (p *IdentityProvider) GetServiceProvider(ctx context.Context, entityID stri
 	return p.storage.GetEntityByID(ctx, entityID)
 }
 
-func verifyRequestDestinationOfAuthRequest(metadata *md.IDPSSODescriptorType, request *samlp.AuthnRequestType) error {
+func verifyRequestDestinationOfAuthRequest(metadata *md.IDPSSODescriptorType, request *samlp2.AuthnRequestType) error {
 	// google provides no destination in their requests
 	if request.Destination != "" {
 		foundEndpoint := false
@@ -190,7 +190,7 @@ func verifyRequestDestinationOfAuthRequest(metadata *md.IDPSSODescriptorType, re
 	return nil
 }
 
-func verifyRequestDestinationOfAttrQuery(metadata *md.IDPSSODescriptorType, request *samlp.AttributeQueryType) error {
+func verifyRequestDestinationOfAttrQuery(metadata *md.IDPSSODescriptorType, request *samlp2.AttributeQueryType) error {
 	// google provides no destination in their requests
 	if request.Destination != "" {
 		foundEndpoint := false

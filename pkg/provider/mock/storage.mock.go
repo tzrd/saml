@@ -10,7 +10,7 @@ import (
 	key "github.com/tzrd/saml/pkg/provider/key"
 	models "github.com/tzrd/saml/pkg/provider/models"
 	serviceprovider "github.com/tzrd/saml/pkg/provider/serviceprovider"
-	samlp "github.com/tzrd/saml/pkg/provider/xml/samlp"
+	samlp2 "github.com/tzrd/saml/pkg/provider/xml/samlp2"
 	reflect "reflect"
 )
 
@@ -53,7 +53,7 @@ func (mr *MockStorageMockRecorder) AuthRequestByID(arg0, arg1 interface{}) *gomo
 }
 
 // CreateAuthRequest mocks base method
-func (m *MockStorage) CreateAuthRequest(arg0 context.Context, arg1 *samlp.AuthnRequestType, arg2, arg3, arg4, arg5 string) (models.AuthRequestInt, error) {
+func (m *MockStorage) CreateAuthRequest(arg0 context.Context, arg1 *samlp2.AuthnRequestType, arg2, arg3, arg4, arg5 string) (models.AuthRequestInt, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateAuthRequest", arg0, arg1, arg2, arg3, arg4, arg5)
 	ret0, _ := ret[0].(models.AuthRequestInt)

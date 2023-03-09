@@ -9,7 +9,7 @@ import (
 	"github.com/tzrd/saml/pkg/provider/checker"
 	"github.com/tzrd/saml/pkg/provider/serviceprovider"
 	"github.com/tzrd/saml/pkg/provider/xml"
-	"github.com/tzrd/saml/pkg/provider/xml/samlp"
+	"github.com/tzrd/saml/pkg/provider/xml/samlp2"
 )
 
 type LogoutRequestForm struct {
@@ -21,7 +21,7 @@ type LogoutRequestForm struct {
 func (p *IdentityProvider) logoutHandleFunc(w http.ResponseWriter, r *http.Request) {
 	checkerInstance := checker.Checker{}
 	var logoutRequestForm *LogoutRequestForm
-	var logoutRequest *samlp.LogoutRequestType
+	var logoutRequest *samlp2.LogoutRequestType
 	var err error
 	var sp *serviceprovider.ServiceProvider
 
