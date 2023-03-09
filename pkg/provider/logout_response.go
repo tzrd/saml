@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/tzrd/saml/pkg/provider/xml/saml"
+	"github.com/tzrd/saml/pkg/provider/xml/saml2"
 	"github.com/tzrd/saml/pkg/provider/xml/saml2p"
 )
 
@@ -123,7 +123,7 @@ func makeLogoutResponse(
 	issueInstant string,
 	status string,
 	message string,
-	issuer *saml.NameIDType,
+	issuer *saml2.NameIDType,
 ) *saml2p.LogoutResponseType {
 	return &saml2p.LogoutResponseType{
 		Id:           NewID(),

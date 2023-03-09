@@ -2,7 +2,7 @@ package provider
 
 import (
 	"github.com/tzrd/saml/pkg/provider/models"
-	"github.com/tzrd/saml/pkg/provider/xml/saml"
+	"github.com/tzrd/saml/pkg/provider/xml/saml2"
 )
 
 const (
@@ -25,8 +25,8 @@ type Attributes struct {
 
 var _ models.AttributeSetter = &Attributes{}
 
-func (a *Attributes) GetNameID() *saml.NameIDType {
-	return &saml.NameIDType{
+func (a *Attributes) GetNameID() *saml2.NameIDType {
+	return &saml2.NameIDType{
 		Format: "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress",
 		Text:   a.username,
 	}
@@ -56,45 +56,45 @@ func (a *Attributes) SetUserID(value string) {
 	a.userID = value
 }
 
-func (a *Attributes) GetSAML() []*saml.AttributeType {
-	attrs := make([]*saml.AttributeType, 0)
+func (a *Attributes) GetSAML() []*saml2.AttributeType {
+	attrs := make([]*saml2.AttributeType, 0)
 	if a.email != "" {
-		attrs = append(attrs, &saml.AttributeType{
+		attrs = append(attrs, &saml2.AttributeType{
 			Name:           "Email",
 			NameFormat:     "urn:oasis:names:tc:SAML:2.0:attrname-format:basic",
 			AttributeValue: []string{a.email},
 		})
 	}
 	if a.surname != "" {
-		attrs = append(attrs, &saml.AttributeType{
+		attrs = append(attrs, &saml2.AttributeType{
 			Name:           "SurName",
 			NameFormat:     "urn:oasis:names:tc:SAML:2.0:attrname-format:basic",
 			AttributeValue: []string{a.surname},
 		})
 	}
 	if a.givenName != "" {
-		attrs = append(attrs, &saml.AttributeType{
+		attrs = append(attrs, &saml2.AttributeType{
 			Name:           "FirstName",
 			NameFormat:     "urn:oasis:names:tc:SAML:2.0:attrname-format:basic",
 			AttributeValue: []string{a.givenName},
 		})
 	}
 	if a.fullName != "" {
-		attrs = append(attrs, &saml.AttributeType{
+		attrs = append(attrs, &saml2.AttributeType{
 			Name:           "FullName",
 			NameFormat:     "urn:oasis:names:tc:SAML:2.0:attrname-format:basic",
 			AttributeValue: []string{a.fullName},
 		})
 	}
 	if a.username != "" {
-		attrs = append(attrs, &saml.AttributeType{
+		attrs = append(attrs, &saml2.AttributeType{
 			Name:           "UserName",
 			NameFormat:     "urn:oasis:names:tc:SAML:2.0:attrname-format:basic",
 			AttributeValue: []string{a.username},
 		})
 	}
 	if a.userID != "" {
-		attrs = append(attrs, &saml.AttributeType{
+		attrs = append(attrs, &saml2.AttributeType{
 			Name:           "UserID",
 			NameFormat:     "urn:oasis:names:tc:SAML:2.0:attrname-format:basic",
 			AttributeValue: []string{a.userID},

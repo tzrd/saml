@@ -11,7 +11,7 @@ import (
 	"github.com/tzrd/saml/pkg/provider/serviceprovider"
 	"github.com/tzrd/saml/pkg/provider/xml"
 	"github.com/tzrd/saml/pkg/provider/xml/md"
-	"github.com/tzrd/saml/pkg/provider/xml/saml"
+	"github.com/tzrd/saml/pkg/provider/xml/saml2"
 	"github.com/tzrd/saml/pkg/provider/xml/saml2p"
 	"github.com/tzrd/saml/pkg/provider/xml/soap"
 	"github.com/tzrd/saml/pkg/provider/xml/xml_dsig"
@@ -122,7 +122,7 @@ func (p *IdentityProvider) attributeQueryHandleFunc(w http.ResponseWriter, r *ht
 				return err
 			}
 
-			queriedAttrs := make([]saml.AttributeType, 0)
+			queriedAttrs := make([]saml2.AttributeType, 0)
 			if attrQuery.Attribute != nil {
 				for _, queriedAttr := range attrQuery.Attribute {
 					queriedAttrs = append(queriedAttrs, queriedAttr)

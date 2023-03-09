@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/tzrd/saml/pkg/provider/xml"
-	"github.com/tzrd/saml/pkg/provider/xml/saml"
+	"github.com/tzrd/saml/pkg/provider/xml/saml2"
 	"github.com/tzrd/saml/pkg/provider/xml/saml2p"
 )
 
@@ -187,8 +187,8 @@ func (r *Response) makeAssertionResponse(
 	return response
 }
 
-func getIssuer(entityID string) *saml.NameIDType {
-	return &saml.NameIDType{
+func getIssuer(entityID string) *saml2.NameIDType {
+	return &saml2.NameIDType{
 		Format: "urn:oasis:names:tc:SAML:2.0:nameid-format:entity",
 		Text:   entityID,
 	}
@@ -199,7 +199,7 @@ func makeAttributeQueryResponse(
 	issuer string,
 	entityID string,
 	attributes *Attributes,
-	queriedAttrs []saml.AttributeType,
+	queriedAttrs []saml2.AttributeType,
 ) *saml2p.ResponseType {
 	now := time.Now().UTC()
 	nowStr := now.Format(DefaultTimeFormat)
@@ -207,7 +207,7 @@ func makeAttributeQueryResponse(
 	fiveFromNow := now.Add(fiveMinutes)
 	fiveFromNowStr := fiveFromNow.Format(DefaultTimeFormat)
 
-	providedAttrs := []*saml.AttributeType{}
+	providedAttrs := []*saml2.AttributeType{}
 	attrsSaml := attributes.GetSAML()
 	if queriedAttrs == nil || len(queriedAttrs) == 0 {
 		for _, attrSaml := range attrsSaml {
@@ -236,25 +236,25 @@ func makeAssertion(
 	issueInstant string,
 	untilInstant string,
 	issuer string,
-	nameID *saml.NameIDType,
-	attributes []*saml.AttributeType,
+	nameID *saml2.NameIDType,
+	attributes []*saml2.AttributeType,
 	audience string,
 	authN bool,
-) *saml.AssertionType {
+) *saml2.AssertionType {
 	id := NewID()
 	issuerP := getIssuer(issuer)
 
-	ret := &saml.AssertionType{
+	ret := &saml2.AssertionType{
 		Version:      "2.0",
 		Id:           id,
 		IssueInstant: issueInstant,
 		Issuer:       *issuerP,
-		Subject: &saml.SubjectType{
+		Subject: &saml2.SubjectType{
 			NameID: nameID,
-			SubjectConfirmation: []saml.SubjectConfirmationType{
+			SubjectConfirmation: []saml2.SubjectConfirmationType{
 				{
 					Method: "urn:oasis:names:tc:SAML:2.0:cm:bearer",
-					SubjectConfirmationData: &saml.SubjectConfirmationDataType{
+					SubjectConfirmationData: &saml2.SubjectConfirmationDataType{
 						InResponseTo: requestID,
 						NotBefore:    issueInstant,
 						NotOnOrAfter: untilInstant,
@@ -262,14 +262,14 @@ func makeAssertion(
 				},
 			},
 		},
-		Conditions: &saml.ConditionsType{
+		Conditions: &saml2.ConditionsType{
 			NotBefore:    issueInstant,
 			NotOnOrAfter: untilInstant,
-			AudienceRestriction: []saml.AudienceRestrictionType{
+			AudienceRestriction: []saml2.AudienceRestrictionType{
 				{Audience: []string{audience}},
 			},
 		},
-		AttributeStatement: []saml.AttributeStatementType{
+		AttributeStatement: []saml2.AttributeStatementType{
 			{Attribute: attributes},
 		},
 	}
@@ -280,11 +280,11 @@ func makeAssertion(
 		ret.Subject.SubjectConfirmation[0].SubjectConfirmationData.Address = sendIP
 	}
 	if authN {
-		ret.AuthnStatement = []saml.AuthnStatementType{
+		ret.AuthnStatement = []saml2.AuthnStatementType{
 			{
 				AuthnInstant: issueInstant,
 				SessionIndex: id,
-				AuthnContext: saml.AuthnContextType{
+				AuthnContext: saml2.AuthnContextType{
 					AuthnContextClassRef: "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport",
 				},
 			},
