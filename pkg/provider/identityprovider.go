@@ -15,6 +15,7 @@ import (
 	"github.com/tzrd/saml/pkg/provider/serviceprovider"
 	"github.com/tzrd/saml/pkg/provider/xml/md"
 	"github.com/tzrd/saml/pkg/provider/xml/saml2p"
+	"github.com/tzrd/saml/pkg/provider/xml/samlp"
 )
 
 const (
@@ -67,6 +68,8 @@ type IdentityProvider struct {
 
 	metadataEndpoint *Endpoint
 	endpoints        *Endpoints
+
+	timeFormat string
 }
 
 type Endpoints struct {
@@ -77,7 +80,7 @@ type Endpoints struct {
 	attributeEndpoint    Endpoint
 }
 
-func NewIdentityProvider(ctx context.Context, metadata Endpoint, conf *IdentityProviderConfig, storage IDPStorage) (*IdentityProvider, error) {
+func NewIdentityProvider(metadata Endpoint, conf *IdentityProviderConfig, storage IDPStorage) (*IdentityProvider, error) {
 	postTemplate, err := template.New("post").Parse(postTemplate)
 	if err != nil {
 		return nil, err
@@ -95,6 +98,7 @@ func NewIdentityProvider(ctx context.Context, metadata Endpoint, conf *IdentityP
 		postTemplate:     postTemplate,
 		logoutTemplate:   logoutTemplate,
 		endpoints:        endpointConfigToEndpoints(conf.Endpoints),
+		timeFormat:       DefaultTimeFormat,
 	}
 
 	if conf.MetadataIDPConfig == nil {
@@ -150,7 +154,7 @@ func (p *IdentityProvider) GetMetadata(ctx context.Context) (*md.IDPSSODescripto
 		return nil, nil, err
 	}
 
-	metadata, aaMetadata := p.conf.getMetadata(ctx, p.GetEntityID(ctx), cert)
+	metadata, aaMetadata := p.conf.getMetadata(ctx, p.GetEntityID(ctx), cert, p.timeFormat)
 	return metadata, aaMetadata, nil
 }
 
@@ -173,7 +177,7 @@ func (p *IdentityProvider) GetServiceProvider(ctx context.Context, entityID stri
 	return p.storage.GetEntityByID(ctx, entityID)
 }
 
-func verifyRequestDestinationOfAuthRequest(metadata *md.IDPSSODescriptorType, request *saml2p.AuthnRequestType) error {
+func verifyRequestDestinationOfAuthRequest(metadata *md.IDPSSODescriptorType, request *samlp.AuthnRequestType) error {
 	// google provides no destination in their requests
 	if request.Destination != "" {
 		foundEndpoint := false

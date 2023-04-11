@@ -17,6 +17,7 @@ import (
 	dsig "github.com/russellhaering/goxmldsig"
 	"github.com/russellhaering/goxmldsig/etreeutils"
 
+	"github.com/tzrd/saml/pkg/provider/xml/xml2_dsig"
 	"github.com/tzrd/saml/pkg/provider/xml/xml_dsig"
 )
 
@@ -123,6 +124,56 @@ func Create(signer xmlsig.Signer, data interface{}) (*xml_dsig.SignatureType, er
 		KeyInfo: &xml_dsig.KeyInfoType{
 			XMLName: xml.Name{},
 			X509Data: []xml_dsig.X509DataType{{
+				X509Certificate: sig.KeyInfo.X509Data.X509Certificate,
+			}},
+		},
+	}, nil
+}
+
+func CreateV2(signer xmlsig.Signer, data interface{}) (*xml2_dsig.SignatureType, error) {
+	sig, err := signer.CreateSignature(data)
+	if err != nil {
+		return nil, err
+	}
+	transforms := []xml2_dsig.TransformType{}
+	for _, t := range sig.SignedInfo.Reference.Transforms.Transform {
+		transforms = append(transforms, xml2_dsig.TransformType{
+			XMLName:   xml.Name{},
+			Algorithm: t.Algorithm,
+		})
+	}
+
+	return &xml2_dsig.SignatureType{
+		XMLName: xml.Name{},
+		Ds:      "http://www.w3.org/2000/09/xmldsig#",
+		SignedInfo: xml2_dsig.SignedInfoType{
+			XMLName: xml.Name{},
+			CanonicalizationMethod: xml2_dsig.CanonicalizationMethodType{
+				XMLName:   xml.Name{},
+				Algorithm: sig.SignedInfo.CanonicalizationMethod.Algorithm,
+			},
+			SignatureMethod: xml2_dsig.SignatureMethodType{
+				XMLName:   xml.Name{},
+				Algorithm: sig.SignedInfo.SignatureMethod.Algorithm,
+			},
+			Reference: []xml2_dsig.ReferenceType{{
+				DigestValue: xml2_dsig.DigestValueType(sig.SignedInfo.Reference.DigestValue),
+				DigestMethod: xml2_dsig.DigestMethodType{
+					XMLName:   xml.Name{},
+					Algorithm: sig.SignedInfo.Reference.DigestMethod.Algorithm,
+				},
+				Transforms: &xml2_dsig.TransformsType{
+					Transform: transforms,
+				},
+				URI: sig.SignedInfo.Reference.URI,
+			}},
+		},
+		SignatureValue: xml2_dsig.SignatureValueType{
+			Text: sig.SignatureValue,
+		},
+		KeyInfo: &xml2_dsig.KeyInfoType{
+			XMLName: xml.Name{},
+			X509Data: []xml2_dsig.X509DataType{{
 				X509Certificate: sig.KeyInfo.X509Data.X509Certificate,
 			}},
 		},

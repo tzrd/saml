@@ -14,7 +14,7 @@ import (
 	"github.com/tzrd/saml/pkg/provider/xml/saml2"
 	"github.com/tzrd/saml/pkg/provider/xml/saml2p"
 	"github.com/tzrd/saml/pkg/provider/xml/soap"
-	"github.com/tzrd/saml/pkg/provider/xml/xml_dsig"
+	"github.com/tzrd/saml/pkg/provider/xml/xml2_dsig"
 )
 
 func (p *IdentityProvider) attributeQueryHandleFunc(w http.ResponseWriter, r *http.Request) {
@@ -78,12 +78,12 @@ func (p *IdentityProvider) attributeQueryHandleFunc(w http.ResponseWriter, r *ht
 
 	//validate used certificate for signing the request
 	checkerInstance.WithConditionalLogicStep(
-		certificateCheckNecessary(
-			func() *xml_dsig.SignatureType { return attrQuery.Signature },
+		certificateCheckNecessaryV2(
+			func() *xml2_dsig.SignatureType { return attrQuery.Signature },
 			func() *md.EntityDescriptorType { return sp.Metadata },
 		),
-		checkCertificate(
-			func() *xml_dsig.SignatureType { return attrQuery.Signature },
+		checkCertificateV2(
+			func() *xml2_dsig.SignatureType { return attrQuery.Signature },
 			func() *md.EntityDescriptorType { return sp.Metadata },
 		),
 		func() {
@@ -93,8 +93,8 @@ func (p *IdentityProvider) attributeQueryHandleFunc(w http.ResponseWriter, r *ht
 
 	// get signature out of request if POST-binding
 	checkerInstance.WithConditionalLogicStep(
-		signaturePostProvided(
-			func() *xml_dsig.SignatureType { return attrQuery.Signature },
+		signaturePostProvidedV2(
+			func() *xml2_dsig.SignatureType { return attrQuery.Signature },
 		),
 		verifyPostSignature(
 			func() string { return attrQueryRequest },
@@ -128,7 +128,7 @@ func (p *IdentityProvider) attributeQueryHandleFunc(w http.ResponseWriter, r *ht
 					queriedAttrs = append(queriedAttrs, queriedAttr)
 				}
 			}
-			response = makeAttributeQueryResponse(attrQuery.Id, p.GetEntityID(r.Context()), sp.GetEntityID(), attrs, queriedAttrs)
+			response = makeAttributeQueryResponse(attrQuery.Id, p.GetEntityID(r.Context()), sp.GetEntityID(), attrs, queriedAttrs, p.timeFormat)
 			return nil
 		},
 		func() {

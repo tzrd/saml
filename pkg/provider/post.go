@@ -9,6 +9,7 @@ import (
 	"github.com/tzrd/saml/pkg/provider/signature"
 	"github.com/tzrd/saml/pkg/provider/xml/md"
 	"github.com/tzrd/saml/pkg/provider/xml/saml2p"
+	"github.com/tzrd/saml/pkg/provider/xml/xml2_dsig"
 	"github.com/tzrd/saml/pkg/provider/xml/xml_dsig"
 )
 
@@ -23,6 +24,19 @@ func signaturePostProvided(
 			signatureV.SignatureValue.Text != ""
 	}
 }
+
+func signaturePostProvidedV2(
+	signatureF func() *xml2_dsig.SignatureType,
+) func() bool {
+	return func() bool {
+		signatureV := signatureF()
+
+		return signatureV != nil &&
+			!reflect.DeepEqual(signatureV.SignatureValue, xml_dsig.SignatureValueType{}) &&
+			signatureV.SignatureValue.Text != ""
+	}
+}
+
 func signaturePostVerificationNecessary(
 	idpMetadataF func() *md.IDPSSODescriptorType,
 	spMetadataF func() *md.EntityDescriptorType,
@@ -36,6 +50,23 @@ func signaturePostVerificationNecessary(
 		return ((spMeta == nil || spMeta.SPSSODescriptor == nil || spMeta.SPSSODescriptor.AuthnRequestsSigned == "true") ||
 			(idpMeta == nil || idpMeta.WantAuthnRequestsSigned == "true") ||
 			signaturePostProvided(signatureF)()) &&
+			protocolBinding() == PostBinding
+	}
+}
+
+func signaturePostVerificationNecessaryV2(
+	idpMetadataF func() *md.IDPSSODescriptorType,
+	spMetadataF func() *md.EntityDescriptorType,
+	signatureF func() *xml2_dsig.SignatureType,
+	protocolBinding func() string,
+) func() bool {
+	return func() bool {
+		spMeta := spMetadataF()
+		idpMeta := idpMetadataF()
+
+		return ((spMeta == nil || spMeta.SPSSODescriptor == nil || spMeta.SPSSODescriptor.AuthnRequestsSigned == "true") ||
+			(idpMeta == nil || idpMeta.WantAuthnRequestsSigned == "true") ||
+			signaturePostProvidedV2(signatureF)()) &&
 			protocolBinding() == PostBinding
 	}
 }
@@ -77,11 +108,15 @@ func createPostSignature(
 		return err
 	}
 
-	sig, err := signature.Create(signer, samlResponse.Assertion)
+	//sig, err := signature.CreateV2(signer, samlResponse.Assertion)
+	sig, err := signature.CreateV2(signer, samlResponse)
 	if err != nil {
 		return err
 	}
 
+	//samlResponse.Signature.SignedInfo.CanonicalizationMethod.Algorithm = sig.SignedInfo.CanonicalizationMethod.Algorithm
+	//samlResponse.Signature.SignedInfo.SignatureMethod.Algorithm = sig.SignedInfo.SignatureMethod.Algorithm
+	samlResponse.Signature = sig
 	samlResponse.Assertion.Signature = sig
 	return nil
 }

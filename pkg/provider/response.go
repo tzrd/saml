@@ -13,7 +13,6 @@ import (
 )
 
 const (
-	DefaultTimeFormat                = "2006-01-02T15:04:05.999999Z"
 	StatusCodeSuccess                = "urn:oasis:names:tc:SAML:2.0:status:Success"
 	StatusCodeVersionMissmatch       = "urn:oasis:names:tc:SAML:2.0:status:VersionMismatch"
 	StatusCodeAuthNFailed            = "urn:oasis:names:tc:SAML:2.0:status:AuthnFailed"
@@ -99,9 +98,10 @@ func (r *Response) sendBackResponse(
 
 func (r *Response) makeUnsupportedBindingResponse(
 	message string,
+	timeFormat string,
 ) *saml2p.ResponseType {
 	now := time.Now().UTC()
-	nowStr := now.Format(DefaultTimeFormat)
+	nowStr := now.Format(timeFormat)
 	return makeResponse(
 		NewID(),
 		r.RequestID,
@@ -115,9 +115,10 @@ func (r *Response) makeUnsupportedBindingResponse(
 
 func (r *Response) makeResponderFailResponse(
 	message string,
+	timeFormat string,
 ) *saml2p.ResponseType {
 	now := time.Now().UTC()
-	nowStr := now.Format(DefaultTimeFormat)
+	nowStr := now.Format(timeFormat)
 	return makeResponse(
 		NewID(),
 		r.RequestID,
@@ -131,9 +132,10 @@ func (r *Response) makeResponderFailResponse(
 
 func (r *Response) makeDeniedResponse(
 	message string,
+	timeFormat string,
 ) *saml2p.ResponseType {
 	now := time.Now().UTC()
-	nowStr := now.Format(DefaultTimeFormat)
+	nowStr := now.Format(timeFormat)
 	return makeResponse(
 		NewID(),
 		r.RequestID,
@@ -147,9 +149,10 @@ func (r *Response) makeDeniedResponse(
 
 func (r *Response) makeFailedResponse(
 	message string,
+	timeFormat string,
 ) *saml2p.ResponseType {
 	now := time.Now().UTC()
-	nowStr := now.Format(DefaultTimeFormat)
+	nowStr := now.Format(timeFormat)
 	return makeResponse(
 		NewID(),
 		r.RequestID,
@@ -163,10 +166,11 @@ func (r *Response) makeFailedResponse(
 
 func (r *Response) makeSuccessfulResponse(
 	attributes *Attributes,
+	timeFormat string,
 ) *saml2p.ResponseType {
 	now := time.Now().UTC()
-	nowStr := "" //now.Format(DefaultTimeFormat)
-	fiveFromNowStr := now.Add(5 * time.Minute).Format(DefaultTimeFormat)
+	nowStr := "" //now.Format(timeFormat)
+	fiveFromNowStr := now.Add(5 * time.Minute).Format(timeFormat)
 
 	return r.makeAssertionResponse(
 		nowStr,
@@ -182,13 +186,14 @@ func (r *Response) makeAssertionResponse(
 ) *saml2p.ResponseType {
 
 	response := makeResponse(NewID(), r.RequestID, r.AcsUrl, issueInstant, StatusCodeSuccess, "", r.Issuer)
-	assertion := makeAssertion(r.RequestID, r.AcsUrl, r.SendIP, issueInstant, untilInstant, r.Issuer, attributes.GetNameID(), attributes.GetSAML(), r.Audience, true)
+	assertion := makeAssertion(r.RequestID, r.AcsUrl, r.SendIP, issueInstant, untilInstant, r.Issuer, attributes.GetNameID(), attributes.GetSAMLV2(), r.Audience, true)
 	response.Assertion = *assertion
 	return response
 }
 
 func getIssuer(entityID string) *saml2.NameIDType {
 	return &saml2.NameIDType{
+		Saml2:  "urn:oasis:names:tc:SAML:2.0:assertion",
 		Format: "urn:oasis:names:tc:SAML:2.0:nameid-format:entity",
 		Text:   entityID,
 	}
@@ -200,15 +205,16 @@ func makeAttributeQueryResponse(
 	entityID string,
 	attributes *Attributes,
 	queriedAttrs []saml2.AttributeType,
+	timeFormat string,
 ) *saml2p.ResponseType {
 	now := time.Now().UTC()
-	nowStr := now.Format(DefaultTimeFormat)
+	nowStr := now.Format(timeFormat)
 	fiveMinutes, _ := time.ParseDuration("5m")
 	fiveFromNow := now.Add(fiveMinutes)
-	fiveFromNowStr := fiveFromNow.Format(DefaultTimeFormat)
+	fiveFromNowStr := fiveFromNow.Format(timeFormat)
 
 	providedAttrs := []*saml2.AttributeType{}
-	attrsSaml := attributes.GetSAML()
+	attrsSaml := attributes.GetSAMLV2()
 	if queriedAttrs == nil || len(queriedAttrs) == 0 {
 		for _, attrSaml := range attrsSaml {
 			providedAttrs = append(providedAttrs, attrSaml)
@@ -243,12 +249,15 @@ func makeAssertion(
 ) *saml2.AssertionType {
 	id := NewID()
 	issuerP := getIssuer(issuer)
+	nameID.Saml2 = "urn:oasis:names:tc:SAML:2.0:assertion"
 
 	ret := &saml2.AssertionType{
+		Saml2:        "urn:oasis:names:tc:SAML:2.0:assertion",
 		Version:      "2.0",
-		Id:           id,
+		Id:           requestID,
 		IssueInstant: issueInstant,
 		Issuer:       *issuerP,
+		//		Signature:    &xml2_dsig.SignatureType{Ds: "http://www.w3.org/2000/09/xmldsig#"},
 		Subject: &saml2.SubjectType{
 			NameID: nameID,
 			SubjectConfirmation: []saml2.SubjectConfirmationType{
@@ -305,8 +314,10 @@ func makeResponse(
 	resp := &saml2p.ResponseType{
 		Version:      "2.0",
 		Id:           id,
+		Saml2p:       "urn:oasis:names:tc:SAML:2.0:protocol",
 		IssueInstant: issueInstant,
 		Status: saml2p.StatusType{
+			Saml2p: "urn:oasis:names:tc:SAML:2.0:protocol",
 			StatusCode: saml2p.StatusCodeType{
 				Value: status,
 			},
@@ -314,6 +325,13 @@ func makeResponse(
 		},
 		InResponseTo: requestID,
 		Issuer:       getIssuer(issuer),
+		Assertion: saml2.AssertionType{
+			Saml2:        "urn:oasis:names:tc:SAML:2.0:assertion",
+			Id:           requestID,
+			Version:      "2.0",
+			IssueInstant: issueInstant,
+			Issuer:       *getIssuer(issuer),
+		},
 	}
 
 	if acsURL != "" {

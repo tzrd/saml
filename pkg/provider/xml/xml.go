@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/tzrd/saml/pkg/provider/xml/saml2p"
+	"github.com/tzrd/saml/pkg/provider/xml/samlp"
 	"github.com/tzrd/saml/pkg/provider/xml/soap"
 	"github.com/tzrd/saml/pkg/provider/xml/xml_dsig"
 )
@@ -85,13 +86,13 @@ func Write(w http.ResponseWriter, body []byte) error {
 	return err
 }
 
-func DecodeAuthNRequest(encoding string, message string) (*saml2p.AuthnRequestType, error) {
+func DecodeAuthNRequest(encoding string, message string) (*samlp.AuthnRequestType, error) {
 	reqBytes, err := base64.StdEncoding.DecodeString(message)
 	if err != nil {
 		return nil, fmt.Errorf("failed to base64 decode: %w", err)
 	}
 
-	req := &saml2p.AuthnRequestType{}
+	req := &samlp.AuthnRequestType{}
 	switch encoding {
 	case EncodingDeflate:
 		reader := flate.NewReader(bytes.NewReader(reqBytes))
